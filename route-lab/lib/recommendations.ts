@@ -1,6 +1,6 @@
-import type { ModelConfig } from "@/config/models";
 
 export { formatCost } from "./cost";
+
 
 export interface ModelResult {
   modelId: string;
@@ -63,10 +63,9 @@ export function computeRecommendations(results: ModelResult[]): Recommendations 
 }
 
 function valueRatio(r: ModelResult): number {
-  if (r.totalCost <= 0) return r.scores?.overall ?? 0;
-  return (r.scores?.overall ?? 5) / (r.totalCost + 0.0001);
+  const score = r.scores?.overall ?? 5;
+  return score / (r.totalCost + 0.000001);
 }
-
 export function formatTime(ms: number): string {
   if (ms < 1000) return `${Math.round(ms)}ms`;
   return `${(ms / 1000).toFixed(1)}s`;
